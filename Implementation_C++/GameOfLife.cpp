@@ -3,6 +3,6 @@
 using namespace std;
 
 int main(){
-    cout<<"test"<<endl;
+    Cell c;
     return 0;
 }

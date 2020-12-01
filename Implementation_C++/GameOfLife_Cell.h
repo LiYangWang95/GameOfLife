@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <vector>
+#include <utility>
 using namespace std;
 
 class Cell{
@@ -8,6 +9,7 @@ class Cell{
         bool stateCur;
         bool statePrev;
         bool gameStarted;
+        pair<int, int> coordinate;
         vector<Cell> nearByCells;
     public:
         Cell(){
@@ -15,7 +17,15 @@ class Cell{
             statePrev = false;
             gameStarted = false;
         }
+        Cell(int x, int y){
+            stateCur = false;
+            statePrev = false;
+            gameStarted = false;
+            coordinate.first = x;
+            coordinate.second = y;
+        }
         int getAliveNeighbors();
+        bool cellState();
         void setNeighbors();
         void reset();
         void tick();
@@ -23,7 +33,17 @@ class Cell{
 };
 
 int Cell::getAliveNeighbors(){
+    int aliveNum = 0;
+    for(Cell c: nearByCells){
+        if(c.cellState()){
+            aliveNum++;
+        }
+    }
+    return aliveNum;
+}
 
+bool Cell::cellState(){
+    return stateCur;
 }
 
 void Cell::setNeighbors(){

@@ -7,35 +7,36 @@ using namespace std;
 class Cell{
     private:
         bool stateCur;
-        bool statePrev;
+        bool stateNext;
         bool gameStarted;
         pair<int, int> coordinate;
-        vector<Cell> nearByCells;
+        vector<Cell*> nearByCells;
     public:
         Cell(){
             stateCur = false;
-            statePrev = false;
+            stateNext = false;
             gameStarted = false;
         }
-        Cell(int x, int y){
+        Cell(int row, int col){
             stateCur = false;
-            statePrev = false;
+            stateNext = false;
             gameStarted = false;
-            coordinate.first = x;
-            coordinate.second = y;
+            coordinate.first = row;
+            coordinate.second = col;
         }
         int getAliveNeighbors();
         bool cellState();
-        void setNeighbors();
-        void reset();
-        void tick();
-        void toggleState();
+        void setNeighbors(Cell*);
+        void setState(bool);
+        void updateState();
+        void getNextState();
+        void gameStatusChange();
 };
 
 int Cell::getAliveNeighbors(){
     int aliveNum = 0;
-    for(Cell c: nearByCells){
-        if(c.cellState()){
+    for(auto c: nearByCells){
+        if(c->cellState()){
             aliveNum++;
         }
     }
@@ -46,18 +47,36 @@ bool Cell::cellState(){
     return stateCur;
 }
 
-void Cell::setNeighbors(){
-
+void Cell::setNeighbors(Cell* newNeighbor){
+    nearByCells.push_back(newNeighbor);
 }
 
-void Cell::reset(){
-
+void Cell::setState(bool newState){
+    stateCur = newState;
+    return;
 }
 
-void Cell::tick(){
-
+void Cell::updateState(){
+    stateCur = stateNext;
+    return;
 }
 
-void Cell::toggleState(){
+void Cell::getNextState(){
+    int aliveNeighbor = this->getAliveNeighbors();
+    stateNext = false;
+    if(!stateCur){
+        if(aliveNeighbor == 3){
+            stateNext = true;
+        }
+    }
+    else{
+        if(aliveNeighbor == 2 || aliveNeighbor == 3){
+            stateNext = true;
+        }
+    }
+    return;
+}
 
+void Cell::gameStatusChange(){
+    gameStarted = !gameStarted;
 }

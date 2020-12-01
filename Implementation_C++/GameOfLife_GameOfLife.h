@@ -19,22 +19,51 @@ class GameOfLife{
             row = r;
             tickInterval = time;
         }
+        void buildGameTable();
+        void initialSetting(vector<pair<int, int>>&);
         void nextGeneration();
-        void resetAll();
+        void updateAll();
         void startGame();
         void tickTimer();
 };
 
-void GameOfLife::nextGeneration(){
-
+void GameOfLife::buildGameTable(){
+    for(int i = 0; i < row; i++){
+        vector<Cell> tmpRow;
+        for(int j = 0; j < col; j++){
+            Cell tmpCell(i, j);
+            tmpRow.push_back(tmpCell);
+        }
+        cells.push_back(tmpRow);
+    }
 }
 
-void GameOfLife::resetAll(){
+void GameOfLife::initialSetting(vector<pair<int, int>>& coordinates){
+    
+}
 
+void GameOfLife::nextGeneration(){
+    for(auto vectorRow: cells){
+        for(auto cell: vectorRow){
+           cell.getNextState();
+        }
+    }
+}
+
+void GameOfLife::updateAll(){
+    for(auto vectorRow: cells){
+        for(auto cell: vectorRow){
+            cell.updateState();
+        }
+    }
 }
 
 void GameOfLife::startGame(){
-
+    for(auto vectorRow: cells){
+        for(auto cell: vectorRow){
+            cell.gameStatusChange();
+        }
+    }
 }
 
 void GameOfLife::tickTimer(){

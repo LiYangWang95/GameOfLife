@@ -25,6 +25,7 @@ class GameOfLife{
         void updateAll();
         void startGame();
         void tickTimer();
+        void showGameStatus();
 };
 
 void GameOfLife::buildGameTable(){
@@ -39,7 +40,24 @@ void GameOfLife::buildGameTable(){
 }
 
 void GameOfLife::initialSetting(vector<pair<int, int>>& coordinates){
-    
+    buildGameTable();
+    pair<int, int> directionNeighbor[] = {
+                                        make_pair(0, 1), make_pair(1, 1),
+                                        make_pair(1, 0), make_pair(1, -1),
+                                        make_pair(0, -1), make_pair(-1, -1),
+                                        make_pair(-1, 0), make_pair(-1, 1)};
+    for(int i = 0; i < row; i++){
+        for(int j = 0; j < col; j++){
+            for(int k = 0; k < 8; k++){
+                int rowNeighbor = i + directionNeighbor[k].first;
+                int colNeighbor = j + directionNeighbor[k].second;
+                if(rowNeighbor >= 0 && rowNeighbor < row && colNeighbor >= 0 && colNeighbor < col){
+                    cells[i][j].setNeighbors(&cells[rowNeighbor][colNeighbor]);
+                }
+            }
+        }
+    }
+    return;
 }
 
 void GameOfLife::nextGeneration(){
@@ -69,4 +87,12 @@ void GameOfLife::startGame(){
 void GameOfLife::tickTimer(){
     this_thread::sleep_for(chrono::milliseconds(tickInterval));
     return;
+}
+
+void GameOfLife::showGameStatus(){
+    for(auto vectorRow: cells){
+        for(auto cell: vectorRow){
+           cell.r();
+        }
+    }
 }

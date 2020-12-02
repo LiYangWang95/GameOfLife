@@ -5,11 +5,9 @@ using namespace std;
 int main(){
     Cell c;
     GameOfLife t;
-    int x = 0;
-    while(x <= 10){
-        t.tickTimer();
-        x++;
-        cout<<x<<endl;
-    }
+    vector<pair<int, int>> tmp;
+
+    t.initialSetting(tmp);
+    t.showGameStatus();
     return 0;
 }

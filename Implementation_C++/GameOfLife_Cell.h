@@ -31,6 +31,9 @@ class Cell{
         void updateState();
         void getNextState();
         void gameStatusChange();
+        void r(){
+            cout<<nearByCells.size()<<endl;
+        }
 };
 
 int Cell::getAliveNeighbors(){

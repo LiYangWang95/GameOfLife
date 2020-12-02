@@ -14,6 +14,7 @@ class GameOfLife{
         int col;
         int row;
         long tickInterval;
+        void buildGameBoard();
     public:
         GameOfLife(){
             col = 5;
@@ -25,13 +26,13 @@ class GameOfLife{
             row = r;
             tickInterval = time;
         }
-        void buildGameBoard();
         void initialSetting(vector<pair<int, int>>&);
         void nextGeneration();
         void updateAll();
         void startGame();
         void tickTimer();
         void showGameBoard();
+        void showGameBoardNext();
 };
 
 void GameOfLife::buildGameBoard(){
@@ -72,20 +73,14 @@ void GameOfLife::initialSetting(vector<pair<int, int>>& coordinates){
     for(auto aliveCell: coordinates){
         cells[aliveCell.first][aliveCell.second].setState(ALIVE);
     }
-    // for(auto vectorRow: cells){
-    //     for(auto cell: vectorRow){
-    //        cout<<cell.cellState()<<" ";
-    //     }
-    //     cout<<endl;
-    // }
     return;
 }
 
 void GameOfLife::nextGeneration(){
     for(auto vectorRow: cells){
         for(auto cell: vectorRow){
-           cell.getNextState();
-           cell.r();
+           cell.calNextState();
+           cout<<cell.stateNext<<" ";
         }
         cout<<endl;
     }
@@ -94,8 +89,8 @@ void GameOfLife::nextGeneration(){
 void GameOfLife::updateAll(){
     for(auto vectorRow: cells){
         for(auto cell: vectorRow){
+             cout<<cell.stateNext<<" ";
             cell.updateState();
-            cout<<cell.cellState()<<" ";
         }
         cout<<endl;
     }
@@ -122,6 +117,21 @@ void GameOfLife::showGameBoard(){
            }
            else{
                cout<<" O ";
+           }
+        }
+        cout<<endl;
+    }
+    cout<<endl;
+}
+
+void GameOfLife::showGameBoardNext(){
+    for(auto vectorRow: cells){
+        for(auto cell: vectorRow){
+           if(cell.cellStateNext() == ALIVE){
+            cout<<" O ";
+           }
+           else{
+               cout<<" . ";
            }
         }
         cout<<endl;

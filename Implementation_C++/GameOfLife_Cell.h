@@ -13,11 +13,13 @@ using namespace std;
 class Cell{
     private:
         bool stateCur;
-        bool stateNext;
+        
         bool gameStarted;
         pair<int, int> coordinate;
         vector<Cell*> nearByCells;
+        int getAliveNeighbors();
     public:
+    bool stateNext;
         Cell(){
             stateCur = DEAD;
             stateNext = DEAD;
@@ -30,16 +32,19 @@ class Cell{
             coordinate.first = row;
             coordinate.second = col;
         }
-        int getAliveNeighbors();
+        
         bool cellState();
+        bool cellStateNext(){
+            return stateNext;
+        }
         void setNeighbors(Cell*);
         void setState(bool);
         void updateState();
-        void getNextState();
+        void calNextState();
         void gameStatusChange();
-        void r(){
-            cout<<stateNext<<" ";
-        }
+        // void r(){
+        //     cout<<stateNext<<" ";
+        // }
 };
 
 int Cell::getAliveNeighbors(){
@@ -53,7 +58,7 @@ int Cell::getAliveNeighbors(){
 }
 
 bool Cell::cellState(){
-    return stateCur;
+    return this->stateCur;
 }
 
 void Cell::setNeighbors(Cell* newNeighbor){
@@ -61,29 +66,27 @@ void Cell::setNeighbors(Cell* newNeighbor){
 }
 
 void Cell::setState(bool newState){
-    stateCur = newState;
-    return;
+    this->stateCur = newState;
 }
 
 void Cell::updateState(){
-    stateCur = stateNext;
-    return;
+    this->stateCur = this->stateNext;
 }
 
-void Cell::getNextState(){
-    int aliveNeighbor = this->getAliveNeighbors();
-    stateNext = DEAD;
-    if(stateCur == DEAD){
+void Cell::calNextState(){
+    int aliveNeighbor = getAliveNeighbors();
+    this->stateNext = DEAD;
+    if(this->stateCur == DEAD){
         if(aliveNeighbor == 3){
-            stateNext = ALIVE;
+            this->stateNext = ALIVE;
         }
     }
     else{
         if(aliveNeighbor == 2 || aliveNeighbor == 3){
-            stateNext = ALIVE;
+            this->stateNext = ALIVE;
         }
     }
-    return;
+    //cout<<this->stateNext<<" ";
 }
 
 void Cell::gameStatusChange(){

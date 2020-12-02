@@ -3,7 +3,6 @@
 using namespace std;
 
 int main(){
-    Cell c;
     GameOfLife t;
     vector<pair<int, int>> tmp;
     tmp.push_back(make_pair(2, 2));
@@ -16,6 +15,7 @@ int main(){
     int curGeneration = 0, numOfGeneration = 1;
     while(curGeneration < numOfGeneration){
         t.nextGeneration();
+        t.showGameBoardNext();
         t.tickTimer();
         t.updateAll();
         t.showGameBoard();

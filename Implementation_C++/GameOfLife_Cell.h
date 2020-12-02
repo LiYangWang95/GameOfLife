@@ -2,6 +2,12 @@
 #include <cstdlib>
 #include <vector>
 #include <utility>
+#ifndef ALIVE
+#define ALIVE true
+#endif
+#ifndef DEAD
+#define DEAD false
+#endif
 using namespace std;
 
 class Cell{
@@ -13,14 +19,14 @@ class Cell{
         vector<Cell*> nearByCells;
     public:
         Cell(){
-            stateCur = false;
-            stateNext = false;
-            gameStarted = false;
+            stateCur = DEAD;
+            stateNext = DEAD;
+            gameStarted = DEAD;
         }
         Cell(int row, int col){
-            stateCur = false;
-            stateNext = false;
-            gameStarted = false;
+            stateCur = DEAD;
+            stateNext = DEAD;
+            gameStarted = DEAD;
             coordinate.first = row;
             coordinate.second = col;
         }
@@ -32,7 +38,7 @@ class Cell{
         void getNextState();
         void gameStatusChange();
         void r(){
-            cout<<nearByCells.size()<<endl;
+            cout<<stateNext<<" ";
         }
 };
 
@@ -66,15 +72,15 @@ void Cell::updateState(){
 
 void Cell::getNextState(){
     int aliveNeighbor = this->getAliveNeighbors();
-    stateNext = false;
-    if(!stateCur){
+    stateNext = DEAD;
+    if(stateCur == DEAD){
         if(aliveNeighbor == 3){
-            stateNext = true;
+            stateNext = ALIVE;
         }
     }
     else{
         if(aliveNeighbor == 2 || aliveNeighbor == 3){
-            stateNext = true;
+            stateNext = ALIVE;
         }
     }
     return;

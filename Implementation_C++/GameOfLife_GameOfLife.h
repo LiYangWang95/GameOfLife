@@ -1,5 +1,11 @@
 #include <thread>
 #include <chrono>
+#ifndef ALIVE
+#define ALIVE true
+#endif
+#ifndef DEAD
+#define DEAD false
+#endif
 using namespace std;
 
 class GameOfLife{
@@ -12,23 +18,23 @@ class GameOfLife{
         GameOfLife(){
             col = 5;
             row = 5;
-            tickInterval = 1000;
+            tickInterval = 100;
         }
         GameOfLife(int c, int r, int time){
             col = c;
             row = r;
             tickInterval = time;
         }
-        void buildGameTable();
+        void buildGameBoard();
         void initialSetting(vector<pair<int, int>>&);
         void nextGeneration();
         void updateAll();
         void startGame();
         void tickTimer();
-        void showGameStatus();
+        void showGameBoard();
 };
 
-void GameOfLife::buildGameTable(){
+void GameOfLife::buildGameBoard(){
     for(int i = 0; i < row; i++){
         vector<Cell> tmpRow;
         for(int j = 0; j < col; j++){
@@ -40,12 +46,16 @@ void GameOfLife::buildGameTable(){
 }
 
 void GameOfLife::initialSetting(vector<pair<int, int>>& coordinates){
-    buildGameTable();
     pair<int, int> directionNeighbor[] = {
                                         make_pair(0, 1), make_pair(1, 1),
                                         make_pair(1, 0), make_pair(1, -1),
                                         make_pair(0, -1), make_pair(-1, -1),
                                         make_pair(-1, 0), make_pair(-1, 1)};
+    
+    // Set up game board
+    buildGameBoard();
+
+    // Set neighbors for all the cells
     for(int i = 0; i < row; i++){
         for(int j = 0; j < col; j++){
             for(int k = 0; k < 8; k++){
@@ -57,6 +67,17 @@ void GameOfLife::initialSetting(vector<pair<int, int>>& coordinates){
             }
         }
     }
+
+    // Set initial conditions
+    for(auto aliveCell: coordinates){
+        cells[aliveCell.first][aliveCell.second].setState(ALIVE);
+    }
+    // for(auto vectorRow: cells){
+    //     for(auto cell: vectorRow){
+    //        cout<<cell.cellState()<<" ";
+    //     }
+    //     cout<<endl;
+    // }
     return;
 }
 
@@ -64,7 +85,9 @@ void GameOfLife::nextGeneration(){
     for(auto vectorRow: cells){
         for(auto cell: vectorRow){
            cell.getNextState();
+           cell.r();
         }
+        cout<<endl;
     }
 }
 
@@ -72,7 +95,9 @@ void GameOfLife::updateAll(){
     for(auto vectorRow: cells){
         for(auto cell: vectorRow){
             cell.updateState();
+            cout<<cell.cellState()<<" ";
         }
+        cout<<endl;
     }
 }
 
@@ -89,10 +114,17 @@ void GameOfLife::tickTimer(){
     return;
 }
 
-void GameOfLife::showGameStatus(){
+void GameOfLife::showGameBoard(){
     for(auto vectorRow: cells){
         for(auto cell: vectorRow){
-           cell.r();
+           if(cell.cellState() == DEAD){
+            cout<<" . ";
+           }
+           else{
+               cout<<" O ";
+           }
         }
+        cout<<endl;
     }
+    cout<<endl;
 }

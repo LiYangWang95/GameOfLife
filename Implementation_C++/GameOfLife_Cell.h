@@ -13,13 +13,12 @@ using namespace std;
 class Cell{
     private:
         bool stateCur;
-        
+        bool stateNext;
         bool gameStarted;
         pair<int, int> coordinate;
         vector<Cell*> nearByCells;
         int getAliveNeighbors();
     public:
-    bool stateNext;
         Cell(){
             stateCur = DEAD;
             stateNext = DEAD;
@@ -34,17 +33,11 @@ class Cell{
         }
         
         bool cellState();
-        bool cellStateNext(){
-            return stateNext;
-        }
         void setNeighbors(Cell*);
         void setState(bool);
         void updateState();
         void calNextState();
         void gameStatusChange();
-        // void r(){
-        //     cout<<stateNext<<" ";
-        // }
 };
 
 int Cell::getAliveNeighbors(){
@@ -86,7 +79,6 @@ void Cell::calNextState(){
             this->stateNext = ALIVE;
         }
     }
-    //cout<<this->stateNext<<" ";
 }
 
 void Cell::gameStatusChange(){

@@ -32,7 +32,6 @@ class GameOfLife{
         void startGame();
         void tickTimer();
         void showGameBoard();
-        void showGameBoardNext();
 };
 
 void GameOfLife::buildGameBoard(){
@@ -77,22 +76,18 @@ void GameOfLife::initialSetting(vector<pair<int, int>>& coordinates){
 }
 
 void GameOfLife::nextGeneration(){
-    for(auto vectorRow: cells){
-        for(auto cell: vectorRow){
-           cell.calNextState();
-           cout<<cell.stateNext<<" ";
+    for(int i = 0; i < row; i++){
+        for(int j = 0; j < col; j++){
+           cells[i][j].calNextState();
         }
-        cout<<endl;
     }
 }
 
 void GameOfLife::updateAll(){
-    for(auto vectorRow: cells){
-        for(auto cell: vectorRow){
-             cout<<cell.stateNext<<" ";
-            cell.updateState();
+    for(int i = 0; i < row; i++){
+        for(int j = 0; j < col; j++){
+            cells[i][j].updateState();
         }
-        cout<<endl;
     }
 }
 
@@ -117,21 +112,6 @@ void GameOfLife::showGameBoard(){
            }
            else{
                cout<<" O ";
-           }
-        }
-        cout<<endl;
-    }
-    cout<<endl;
-}
-
-void GameOfLife::showGameBoardNext(){
-    for(auto vectorRow: cells){
-        for(auto cell: vectorRow){
-           if(cell.cellStateNext() == ALIVE){
-            cout<<" O ";
-           }
-           else{
-               cout<<" . ";
            }
         }
         cout<<endl;

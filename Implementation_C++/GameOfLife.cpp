@@ -12,10 +12,9 @@ int main(){
     t.initialSetting(tmp);
     t.startGame();
     t.showGameBoard();
-    int curGeneration = 0, numOfGeneration = 1;
+    int curGeneration = 0, numOfGeneration = 5;
     while(curGeneration < numOfGeneration){
         t.nextGeneration();
-        t.showGameBoardNext();
         t.tickTimer();
         t.updateAll();
         t.showGameBoard();

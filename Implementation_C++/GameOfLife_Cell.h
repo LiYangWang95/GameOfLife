@@ -1,7 +1,6 @@
 #include <iostream>
 #include <cstdlib>
 #include <vector>
-#include <utility>
 #ifndef ALIVE
 #define ALIVE true
 #endif
@@ -15,7 +14,6 @@ class Cell{
         bool stateCur;
         bool stateNext;
         bool gameStarted;
-        pair<int, int> coordinate;
         vector<Cell*> nearByCells;
         int getAliveNeighbors();
     public:
@@ -28,8 +26,6 @@ class Cell{
             stateCur = DEAD;
             stateNext = DEAD;
             gameStarted = DEAD;
-            coordinate.first = row;
-            coordinate.second = col;
         }
         
         bool cellState();

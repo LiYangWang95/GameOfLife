@@ -3,10 +3,11 @@ package game;
 import java.util.Collection;
 
 public class Cell {
+
     private State state = State.SETUP;
     private Collection<Cell> neighbors;
 
-    public void setNeighbors(Collection<Cell> neighbors) {
+    protected void setNeighbors(Collection<Cell> neighbors) {
         this.neighbors = neighbors;
     }
 
